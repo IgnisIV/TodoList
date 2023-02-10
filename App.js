@@ -23,6 +23,17 @@ function App() {
     }
   ]
 
+  const EditStatusTab = [
+    {
+      status: 'Complete',
+      completed: true
+    },
+    {
+      status: 'Incomplete',
+      completed: false
+    }
+  ]
+
   const [Status,setStatus] = useState('All');
 
   const setStatusFilter = Status => {
@@ -34,11 +45,15 @@ function App() {
     setStatus(Status);
   };
 
+  const ChangeStatus = editStatus => {
+    seteditStatus(editStatus);
+  };
+
   const [isRender,setisRender] = useState(false);
   const [modalVisible, setmodalVisible] = useState(false);
   const [editText, seteditText] = useState();
   const [editItem, seteditItem] = useState();
-  const [editStatus, seteditStatus] = useState();
+  const [editStatus, seteditStatus] = useState(Todos.completed);
 
   React.useEffect(()=>{
     GetTasks();
@@ -195,12 +210,14 @@ function App() {
             multiline={false}
             maxLength={200}/>
             <Text style={styles.ModalText}>Task Status:</Text>
-            <TouchableOpacity style={styles.FilterTab}>
-              <Text style={styles.TabText}>Complete</Text>
+            {
+              EditStatusTab.map(e => (
+                <TouchableOpacity style={[styles.FilterTab, editStatus === e.completed && styles.FilterTabActive]}
+                onPress={() => ChangeStatus(e.completed)}>
+              <Text style={[styles.TabText, editStatus === e.status && styles.TabTextActive]}>{e.status}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.FilterTab}>
-              <Text style={styles.TabText}>Incomplete</Text>
-            </TouchableOpacity>
+              ))
+            }
             <TouchableOpacity
             onPress={()=> onPressSaveEdit()}
             style={styles.SaveButton}>
