@@ -7,7 +7,6 @@ function App() {
   const [todoInput, settodoInput] = React.useState('')
 
   const [Todos, setTodos] = React.useState([]);
-  //const [FilterTodos, setFilterTodos] = React.useState(setStatusFilter());
 
   const StatusTab = [
     {
@@ -27,11 +26,11 @@ function App() {
   const [Status,setStatus] = useState('All');
 
   const setStatusFilter = Status => {
-    if(Status !== 'All') {
-      setTodos([...Todos.filter(e => e.completed === Status)])
-    } else {
-      setTodos(Todos)
-    }
+    // if(Status !== 'All') {
+    //   setTodos([...Todos.filter(e => e.completed === Status)])
+    // } else {
+    //   setTodos(Todos)
+    // }
     setStatus(Status);
   };
 
@@ -152,6 +151,12 @@ function App() {
   ])
   };
 
+  const getTodos = (status) => {
+    return status === 'All'
+      ? Todos
+      : Todos.filter((item) => item.completed === status);
+  };
+
   return (
     <View style={styles.Container}>
       <View style={styles.Header}>
@@ -168,7 +173,7 @@ function App() {
         <FlatList
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{padding:20,paddingBottom:100}} 
-        data={Todos}
+        data={getTodos(Status)}
         keyExtractor={(item) => item.id.toString()} 
         renderItem={({item})=><ListItem Todo={item}/>}
         extraData={isRender}/>
