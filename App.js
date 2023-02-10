@@ -38,6 +38,7 @@ function App() {
   const [modalVisible, setmodalVisible] = useState(false);
   const [editText, seteditText] = useState();
   const [editItem, seteditItem] = useState();
+  const [editStatus, seteditStatus] = useState();
 
   React.useEffect(()=>{
     GetTasks();
@@ -59,7 +60,7 @@ function App() {
       )}
 
       <TouchableOpacity style={[styles.EditIcon,{backgroundColor:'#5D76E8'}]}
-      onPress={()=>editTodo(Todo?.id)}>
+      onPress={()=>editTodo(Todo)}>
         <Icon name='edit' size={20} color='#FFFFFF'/>
       </TouchableOpacity>
       
@@ -120,14 +121,16 @@ function App() {
 
   const editTodo = (item) => {
     setmodalVisible(true);
-    seteditText(item.text);
+    seteditText(item.task);
     seteditItem(item.id);
+    seteditStatus(item.completed)
   };
 
   const handleEditItem = (editItem) =>{
     const newData =Todos.map(item =>{
       if (item.id == editItem) {
-        item.text = editText;
+        item.task = editText;
+        item.completed = editStatus;
         return item
       }
       return item;
